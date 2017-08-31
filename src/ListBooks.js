@@ -16,8 +16,12 @@ class ListBooks extends Component {
       .then(data => this.setState({books: data}))
   }
 
-  updateBook(book, shelf){
-    BooksAPI.update(book,shelf)
+
+  updateBook(id, shelf){
+    console.log(id, shelf)
+    this.setState({books: [
+        ...this.state.books.map(item => item.id === id ? {...item, shelf: shelf} : item)
+    ]})
   }
 
   render() {
@@ -35,7 +39,7 @@ class ListBooks extends Component {
                   {
                     this.state.books
                     .filter(item => item.shelf === "currentlyReading")
-                    .map((item, i) => <Book key={i} {...item} update={this.updateBook.bind(this)}/>)
+                    .map((item, i) => <Book key={item.id} {...item} update={this.updateBook.bind(this)}/>)
 
                   }
                 </ol>
@@ -48,7 +52,7 @@ class ListBooks extends Component {
                   {
                     this.state.books
                     .filter(item => item.shelf === "wantToRead")
-                    .map((item, i) => <Book key={i} {...item} update={this.updateBook.bind(this)}/>)
+                    .map((item, i) => <Book key={item.id} {...item} update={this.updateBook.bind(this)}/>)
                   }
                 </ol>
               </div>
@@ -60,7 +64,7 @@ class ListBooks extends Component {
                 {
                   this.state.books
                   .filter(item => item.shelf === "read" )
-                  .map((item, i) => <Book key={i} {...item} update={this.updateBook.bind(this)}/>)
+                  .map((item, i) => <Book key={item.id} {...item} update={this.updateBook.bind(this)}/>)
                 }
                 </ol>
               </div>
