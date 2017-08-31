@@ -25,6 +25,7 @@ class ListBooks extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div className="list-books">
         <div className="list-books-title">
