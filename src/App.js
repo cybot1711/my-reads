@@ -1,6 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
-import ListBokks from './ListBooks'
+import ListBooks from './ListBooks'
 import SearchPage from './SearchPage'
 import './App.css'
 
@@ -20,7 +20,7 @@ class BooksApp extends React.Component {
       <div className="app">
         <Router>
           <div>
-            <Route exact path="/" component={ListBokks}/>
+            <Route exact path="/" component={ListBooks}/>
             <Route path="/search" component={SearchPage}/>
           </div>
         </Router>
