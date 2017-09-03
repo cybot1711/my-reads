@@ -1,5 +1,9 @@
 import React from 'react'
 
+/**
+ * @description Stateless functional component for rendering a Book UI
+ */
+
 const Book = ({title, authors, imageLinks, id, update, shelf}) => (
     <li>
       <div className="book">

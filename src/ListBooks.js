@@ -3,12 +3,19 @@ import {Link} from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 
+/**
+ * @description Lists all books in your reads
+ * @constructor takes one @param props
+ * @method UpdateBook: Updates Book State in real time state as well as Server Side. I guess this is not needed as data is persisted but kept none the less
+ */
+
 class ListBooks extends Component {
   constructor(props) {
     super(props)
     this.state = {
       books: []
     }
+    this.updateBook = this.updateBook.bind(this)
   }
   componentDidMount() {
   BooksAPI
@@ -41,7 +48,7 @@ class ListBooks extends Component {
                   {
                     this.state.books
                     .filter(item => item.shelf === "currentlyReading")
-                    .map((item, i) => <Book key={item.id} {...item} update={this.updateBook.bind(this)}/>)
+                    .map((item, i) => <Book key={item.id} {...item} update={this.updateBook}/>)
 
                   }
                 </ol>
@@ -54,7 +61,7 @@ class ListBooks extends Component {
                   {
                     this.state.books
                     .filter(item => item.shelf === "wantToRead")
-                    .map((item, i) => <Book key={item.id} {...item} update={this.updateBook.bind(this)}/>)
+                    .map((item, i) => <Book key={item.id} {...item} update={this.updateBook}/>)
                   }
                 </ol>
               </div>
@@ -66,7 +73,7 @@ class ListBooks extends Component {
                 {
                   this.state.books
                   .filter(item => item.shelf === "read" )
-                  .map((item, i) => <Book key={item.id} {...item} update={this.updateBook.bind(this)}/>)
+                  .map((item, i) => <Book key={item.id} {...item} update={this.updateBook}/>)
                 }
                 </ol>
               </div>

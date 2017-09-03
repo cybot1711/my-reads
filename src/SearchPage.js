@@ -3,12 +3,21 @@ import * as BooksAPI from './BooksAPI'
 import {Link} from 'react-router-dom'
 import Book from './Book'
 
+/**
+ * @description Searches db for books
+ * @constructor takes one @param props
+ * @method getSearchResults: Retrieves Search results from server
+ *         Uses {array} for checking if search term is valid
+ * @method AddBookToShelf: Adds Book  from search page to shelf so Data can persist.
+ */
+
 class SearchPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
             data: []
         }
+        this.addBookToShelf = this.addBookToShelf.bind(this)
     }
 
     componentDidMount() {
@@ -46,7 +55,7 @@ class SearchPage extends Component {
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {
-                            this.state.data.map(item => <Book key={item.id} {...item} update={this.addBookToShelf.bind(this)} />)
+                            this.state.data.map(item => <Book key={item.id} {...item} update={this.addBookToShelf} />)
                         }
                     </ol>
                 </div>
