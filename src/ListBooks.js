@@ -22,6 +22,7 @@ class ListBooks extends Component {
     this.setState({books: [
         ...this.state.books.map(item => item.id === id ? {...item, shelf: shelf} : item)
     ]})
+      BooksAPI.update(id,shelf)
   }
 
   render() {
