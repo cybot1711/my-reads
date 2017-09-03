@@ -10,82 +10,83 @@ import Book from './Book'
  */
 
 class ListBooks extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      books: []
+    constructor(props) {
+        super(props)
+        this.state = {
+            books: []
+        }
+        this.updateBook = this.updateBook.bind(this)
     }
-    this.updateBook = this.updateBook.bind(this)
-  }
-  componentDidMount() {
-  BooksAPI
-      .getAll()
-      .then(data => this.setState({books: data}))
-  }
+
+    componentDidMount() {
+        BooksAPI
+            .getAll()
+            .then(data => this.setState({books: data}))
+    }
 
 
-  updateBook(id, shelf){
-    console.log(id, shelf)
-    this.setState({books: [
-        ...this.state.books.map(item => item.id === id ? {...item, shelf: shelf} : item)
-    ]})
-      BooksAPI.update(id,shelf)
-  }
+    updateBook(book, shelf) {
+        console.log(book, shelf)
+        if (book.shelf !== shelf)
+            BooksAPI.update(book, shelf).then(() => {
+                this.setState({
+                    books: [
+                        ...this.state.books.map(item => item.id === book.id ? {...item, shelf: shelf} : item)
+                    ]
+                })
+            })
+    }
 
-  render() {
-    console.log(this.state)
-    return (
-      <div className="list-books">
-        <div className="list-books-title">
-          <h1>MyReads</h1>
-        </div>
-        <div className="list-books-content">
-          <div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Currently Reading</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {
-                    this.state.books
-                    .filter(item => item.shelf === "currentlyReading")
-                    .map((item, i) => <Book key={item.id} {...item} update={this.updateBook}/>)
-
-                  }
-                </ol>
-              </div>
+    render() {
+        console.log(this.state)
+        const wantToRead = this.state.books.filter(book => book.shelf === 'wantToRead')
+        const currentlyReading = this.state.books.filter(book => book.shelf === 'currentlyReading')
+        const read = this.state.books.filter(book => book.shelf === 'read')
+        return (
+            <div className="list-books">
+                <div className="list-books-title">
+                    <h1>MyReads</h1>
+                </div>
+                <div className="list-books-content">
+                    <div>
+                        <div className="bookshelf">
+                            <h2 className="bookshelf-title">Currently Reading</h2>
+                            <div className="bookshelf-books">
+                                <ol className="books-grid">
+                                    {
+                                        currentlyReading.map((item, i) => <Book key={item.id} {...item} update={this.updateBook}/>)
+                                    }
+                                </ol>
+                            </div>
+                        </div>
+                        <div className="bookshelf">
+                            <h2 className="bookshelf-title">Want to Read</h2>
+                            <div className="bookshelf-books">
+                                <ol className="books-grid">
+                                    {
+                                        wantToRead.map((item, i) => <Book key={item.id} {...item} update={this.updateBook}/>)
+                                    }
+                                </ol>
+                            </div>
+                        </div>
+                        <div className="bookshelf">
+                            <h2 className="bookshelf-title">Read</h2>
+                            <div className="bookshelf-books">
+                                <ol className="books-grid">
+                                    {
+                                        read.map((item, i) => <Book key={item.id} {...item} update={this.updateBook}/>)
+                                    }
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="open-search">
+                    <Link to="/search">Add Book</Link>
+                </div>
             </div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Want to Read</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {
-                    this.state.books
-                    .filter(item => item.shelf === "wantToRead")
-                    .map((item, i) => <Book key={item.id} {...item} update={this.updateBook}/>)
-                  }
-                </ol>
-              </div>
-            </div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title">Read</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                {
-                  this.state.books
-                  .filter(item => item.shelf === "read" )
-                  .map((item, i) => <Book key={item.id} {...item} update={this.updateBook}/>)
-                }
-                </ol>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="open-search">
-          <Link to="/search">Add Book</Link>
-        </div>
-      </div>
-    )
-  }
+        )
+    }
 }
 
 export default ListBooks
