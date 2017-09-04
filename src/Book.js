@@ -11,9 +11,7 @@ const Book = (props) => (
           <div
               className="book-cover"
               style={{
-                width: 128,
-                height: 193,
-                backgroundImage: `url(${props.imageLinks.thumbnail})`
+                backgroundImage: `url(${props.imageLinks ? props.imageLinks.thumbnail : ''})`
               }}/>
           <div className="book-shelf-changer">
             <select onChange={event => props.update(props, event.target.value)} value={props.shelf}>
@@ -26,7 +24,9 @@ const Book = (props) => (
           </div>
         </div>
         <div className="book-title">{props.title}</div>
-        <div className="book-authors">{props.authors.map(i => i)}</div>
+        <div className="book-authors">{props.authors ?
+            props.authors.map((i,k) => <span key={k}>{i}</span>) : ''
+        }</div>
       </div>
     </li>
 )
